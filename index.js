@@ -30,6 +30,13 @@ async function run() {
     // to insert a data
     const productsCollection = client.db('productsDB').collection('products')
 
+    // read the created data
+    app.get('/products', async(req, res) =>{
+        const cursor = productsCollection.find();
+        const result = await cursor.toArray();
+        res.send(result)
+    })
+
     // post data of client side
     app.post('/products', async(req, res) => {
         const newProducts = req.body
