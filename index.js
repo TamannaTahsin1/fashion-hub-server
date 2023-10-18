@@ -27,9 +27,11 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // to insert a data
+    // to insert data collection
     const productsCollection = client.db('productsDB').collection('products')
+    const userCollection = client.db('productsDB').collection('user')
 
+    // ******PRODUCT RELATED APIs********
     // read the created data
     app.get('/products', async(req, res) =>{
         const cursor = productsCollection.find();
@@ -37,7 +39,7 @@ async function run() {
         res.send(result)
     })
 
-    // post data of client side
+    // create data of client side
     app.post('/products', async(req, res) => {
         const newProducts = req.body
         console.log(newProducts);
@@ -45,7 +47,14 @@ async function run() {
         res.send(result)
     })
 
-
+    // *******USER RELATED APIs***********
+    // create data of user
+    app.post('/user', async(req, res) => {
+      const user = req.body
+      console.log(user);
+      const result = await userCollection.insertOne(user)
+      res.send(result)
+  })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
