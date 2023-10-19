@@ -45,6 +45,13 @@ async function run() {
       const result = await productsCollection.insertOne(newProducts);
       res.send(result);
     });
+    // update data of client side
+    app.get("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await productsCollection.findOne(query);
+      res.send(result);
+    });
     // *******Cart related APIs**********
     // read the created data
     app.get("/cart", async (req, res) => {
